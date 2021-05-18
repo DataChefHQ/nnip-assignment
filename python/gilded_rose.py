@@ -71,6 +71,20 @@ class AgedBrieItem(AbstractItem):
                 self.increase_quality_by(2)
 
 
+class BackstagePassesItem(AbstractItem):
+
+    def update_quality(self):
+        if self.item.sell_in >= 0:
+            if self.item.sell_in >= 10:
+                self.increase_quality_by(1)
+            elif self.item.sell_in >= 5:
+                self.increase_quality_by(2)
+            elif self.item.sell_in > 0:
+                self.increase_quality_by(3)
+            else:
+                self.item.quality = 0
+
+
 class GildedRose(object):
 
     def __init__(self, items):

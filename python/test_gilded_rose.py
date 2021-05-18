@@ -135,6 +135,73 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEquals(aged_brie_item.item.quality, 2,
                           "For AgedBrie Item, with zero sell_in, quality must increase by two")
 
+    #  Back stage Passes Item
+    def test_back_stage_udp_quality_with_s_gt_10(self):
+        back_stage_item = BackstagePassesItem(Item(name="Backstage passes to a TAFKAL80ETC concert",
+                                                   sell_in=15, quality=20))
+        back_stage_item.update_quality()
+        self.assertEquals(back_stage_item.item.quality, 21,
+                          "For Back stage Passes Item, with sell_in gt 10, quality must increases by one")
+
+    def test_back_stage_udp_quality_with_s_eq_10(self):
+        back_stage_item = BackstagePassesItem(Item(name="Backstage passes to a TAFKAL80ETC concert",
+                                                   sell_in=10, quality=20))
+        back_stage_item.update_quality()
+        self.assertEquals(back_stage_item.item.quality, 21,
+                          "For Back stage Passes Item, with sell_in eq 10, quality must increases by one")
+
+    def test_back_stage_udp_quality_with_s_lt_10_gt_5(self):
+        back_stage_item = BackstagePassesItem(Item(name="Backstage passes to a TAFKAL80ETC concert",
+                                                   sell_in=7, quality=20))
+        back_stage_item.update_quality()
+        self.assertEquals(back_stage_item.item.quality, 22,
+                          "For Back stage Passes Item, with sell_in lt 10 and gt 5, quality must increases by two")
+
+    def test_back_stage_udp_quality_with_s_eq_5(self):
+        back_stage_item = BackstagePassesItem(Item(name="Backstage passes to a TAFKAL80ETC concert",
+                                                   sell_in=5, quality=20))
+        back_stage_item.update_quality()
+        self.assertEquals(back_stage_item.item.quality, 22,
+                          "For Back stage Passes Item, with sell_in eq 5, quality must increases by two")
+
+    def test_back_stage_udp_quality_with_s_lt_5_gt_0(self):
+        back_stage_item = BackstagePassesItem(Item(name="Backstage passes to a TAFKAL80ETC concert",
+                                                   sell_in=2, quality=20))
+        back_stage_item.update_quality()
+        self.assertEquals(back_stage_item.item.quality, 23,
+                          "For Back stage Passes Item, with sell_in lt 5 and gt 0, quality must increases by three")
+
+    def test_back_stage_udp_quality_with_s_eq_0(self):
+        back_stage_item = BackstagePassesItem(Item(name="Backstage passes to a TAFKAL80ETC concert",
+                                                   sell_in=0, quality=20))
+        back_stage_item.update_quality()
+        self.assertEquals(back_stage_item.item.quality, 0,
+                          "For Back stage Passes Item, with sell_in eq 0, quality must be set to zero")
+
+    def test_back_stage_udp_quality_with_s_lt_5_gt_0_q_boarder(self):
+        back_stage_item = BackstagePassesItem(Item(name="Backstage passes to a TAFKAL80ETC concert",
+                                                   sell_in=1, quality=48))
+        back_stage_item.update_quality()
+        self.assertEquals(back_stage_item.item.quality, 50,
+                          "For Back stage Passes Item, with sell_in lt 5 and gt 0, and Qulallity boarder, "
+                          "quality must be set to 50")
+
+    def test_back_stage_udp_quality_with_s_lt_5_gt_0_q_boarder_2(self):
+        back_stage_item = BackstagePassesItem(Item(name="Backstage passes to a TAFKAL80ETC concert",
+                                                   sell_in=1, quality=49))
+        back_stage_item.update_quality()
+        self.assertEquals(back_stage_item.item.quality, 50,
+                          "For Back stage Passes Item, with sell_in lt 5 and gt 0, and Qulallity boarder, "
+                          "quality must be set to 50")
+
+    def test_back_stage_udp_quality_with_s_lt_5_gt_0_q_boarder_3(self):
+        back_stage_item = BackstagePassesItem(Item(name="Backstage passes to a TAFKAL80ETC concert",
+                                                   sell_in=1, quality=50))
+        back_stage_item.update_quality()
+        self.assertEquals(back_stage_item.item.quality, 50,
+                          "For Back stage Passes Item, with sell_in lt 5 and gt 0, and Qulallity boarder, "
+                          "quality must be set to 50")
+
 
 if __name__ == '__main__':
     unittest.main()
