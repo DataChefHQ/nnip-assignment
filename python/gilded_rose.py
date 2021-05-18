@@ -15,6 +15,9 @@ class AbstractItem(ABC):
     def __init__(self, item: Item):
         self.item = item
 
+    max_quality = 50
+    min_quality = 0
+
     @abstractmethod
     def update_quality(self):
         pass
@@ -23,14 +26,14 @@ class AbstractItem(ABC):
         self.item.sell_in = self.item.sell_in - 1
 
     def decrease_quality_by(self, amount):
-        if self.item.quality - amount < 0:
-            self.item.quality = 0
+        if self.item.quality - amount < AbstractItem.min_quality:
+            self.item.quality = AbstractItem.min_quality
         else:
             self.item.quality = self.item.quality - amount
 
     def increase_quality_by(self, amount):
-        if self.item.quality + amount > 50:
-            self.item.quality = 50
+        if self.item.quality + amount > AbstractItem.max_quality:
+            self.item.quality = AbstractItem.max_quality
         else:
             self.item.quality = self.item.quality + amount
 
@@ -40,7 +43,7 @@ class NormalItem(AbstractItem):
     degrade_amount = 1
 
     def update_quality(self):
-        if self.item.quality > 0:
+        if self.item.quality > AbstractItem.min_quality:
             if self.item.sell_in >= 0:
                 self.decrease_quality_by(self.degrade_amount)
             else:
@@ -64,7 +67,7 @@ class SulfurasItem(AbstractItem):
 class AgedBrieItem(AbstractItem):
 
     def update_quality(self):
-        if self.item.quality < 50:
+        if self.item.quality < AbstractItem.max_quality:
             if self.item.sell_in >= 0:
                 self.increase_quality_by(1)
             else:
@@ -82,7 +85,7 @@ class BackstagePassesItem(AbstractItem):
             elif self.item.sell_in > 0:
                 self.increase_quality_by(3)
             else:
-                self.item.quality = 0
+                self.item.quality = AbstractItem.min_quality
 
 
 class GildedRose(object):
