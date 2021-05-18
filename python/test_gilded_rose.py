@@ -182,25 +182,25 @@ class GildedRoseTest(unittest.TestCase):
         back_stage_item = BackstagePassesItem(Item(name="Backstage passes to a TAFKAL80ETC concert",
                                                    sell_in=1, quality=48))
         back_stage_item.update_quality()
-        self.assertEquals(back_stage_item.item.quality, 50,
-                          "For Back stage Passes Item, with sell_in lt 5 and gt 0, and Qulallity boarder, "
-                          "quality must be set to 50")
+        self.assertEquals(back_stage_item.item.quality, AbstractItem.max_quality,
+                          "For Back stage Passes Item, with sell_in lt 5 and gt 0, and Quality boarder, "
+                          "quality must be set to %d " % AbstractItem.max_quality)
 
     def test_back_stage_udp_quality_with_s_lt_5_gt_0_q_boarder_2(self):
         back_stage_item = BackstagePassesItem(Item(name="Backstage passes to a TAFKAL80ETC concert",
                                                    sell_in=1, quality=49))
         back_stage_item.update_quality()
-        self.assertEquals(back_stage_item.item.quality, 50,
-                          "For Back stage Passes Item, with sell_in lt 5 and gt 0, and Qulallity boarder, "
-                          "quality must be set to 50")
+        self.assertEquals(back_stage_item.item.quality, AbstractItem.max_quality,
+                          "For Back stage Passes Item, with sell_in lt 5 and gt 0, and Quality boarder, "
+                          "quality must be set to %d " % AbstractItem.max_quality)
 
     def test_back_stage_udp_quality_with_s_lt_5_gt_0_q_boarder_3(self):
         back_stage_item = BackstagePassesItem(Item(name="Backstage passes to a TAFKAL80ETC concert",
-                                                   sell_in=1, quality=50))
+                                                   sell_in=1, quality=AbstractItem.max_quality))
         back_stage_item.update_quality()
-        self.assertEquals(back_stage_item.item.quality, 50,
-                          "For Back stage Passes Item, with sell_in lt 5 and gt 0, and Qulallity boarder, "
-                          "quality must be set to 50")
+        self.assertEquals(back_stage_item.item.quality, AbstractItem.max_quality,
+                          "For Back stage Passes Item, with sell_in lt 5 and gt 0, and Quality boarder, "
+                          "quality must be set to %d " % AbstractItem.max_quality)
 
 
 if __name__ == '__main__':
