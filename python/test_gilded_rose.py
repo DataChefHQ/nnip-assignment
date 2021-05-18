@@ -1,15 +1,53 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from gilded_rose import Item, GildedRose
+from gilded_rose import *
 
 
 class GildedRoseTest(unittest.TestCase):
-    def test_foo(self):
-        items = [Item("foo", 0, 0)]
-        gilded_rose = GildedRose(items)
-        gilded_rose.update_quality()
-        self.assertEquals("fixme", items[0].name)
+    #  Normal Item
+    def test_normal_udp_quality_with_q_gt_0(self):
+        normal_item = NormalItem(Item(name="+5 Dexterity Vest", sell_in=1, quality=20))
+        normal_item.update_quality()
+        self.assertEquals(normal_item.item.quality, 19,
+                          "For Normal Item, with positive sell_in, quality must decreases by one")
+
+    def test_normal_upd_quality_with_q_eq_0(self):
+        normal_item = NormalItem(Item(name="+5 Dexterity Vest", sell_in=1, quality=0))
+        normal_item.update_quality()
+        self.assertEquals(normal_item.item.quality, 0,
+                          "For Normal Item, with positive sell_in, with zero quality, quality must not change")
+
+    def test_normal_udp_quality_with_s_eq_0(self):
+        normal_item = NormalItem(Item(name="+5 Dexterity Vest", sell_in=0, quality=1))
+        normal_item.update_quality()
+        self.assertEquals(normal_item.item.quality, 0,
+                          "For Normal Item, with zero sell_in, quality must decreases by one")
+
+    def test_normal_upd_quality_with_s_lt_0(self):
+        normal_item = NormalItem(Item(name="+5 Dexterity Vest", sell_in=-1, quality=4))
+        normal_item.update_quality()
+        self.assertEquals(normal_item.item.quality, 2,
+                          "For Normal Item, with negative sell_in, quality must decreases by two")
+
+    def test_normal_upd_quality_with_s_lt_0_q_boarder(self):
+        normal_item = NormalItem(Item(name="+5 Dexterity Vest", sell_in=-1, quality=1))
+        normal_item.update_quality()
+        self.assertEquals(normal_item.item.quality, 0,
+                          "For Normal Item, with negative sell_in, with quality less that 2, "
+                          "quality must decreases to zero")
+
+    def test_normal_upd_quality_with_s_lt_0_q_0(self):
+        normal_item = NormalItem(Item(name="+5 Dexterity Vest", sell_in=-1, quality=0))
+        normal_item.update_quality()
+        self.assertEquals(normal_item.item.quality, 0,
+                          "For Normal Item, with negative sell_in, with quality equal to zero, "
+                          "quality must not change")
+
+    def test_normal_upd_sell_in(self):
+        normal_item = NormalItem(Item(name="+5 Dexterity Vest", sell_in=10, quality=20))
+        normal_item.update_sell_in()
+        self.assertEquals(normal_item.item.sell_in, 9, "For Normal Item, update sell_in must decrease sell_in by one")
 
         
 if __name__ == '__main__':

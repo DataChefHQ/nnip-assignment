@@ -1,4 +1,52 @@
-# -*- coding: utf-8 -*-
+from abc import ABC, abstractmethod
+
+
+class Item:
+    def __init__(self, name, sell_in, quality):
+        self.name = name
+        self.sell_in = sell_in
+        self.quality = quality
+
+    def __repr__(self):
+        return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
+
+
+class AbstractItem(ABC):
+    def __init__(self, item: Item):
+        self.item = item
+
+    @abstractmethod
+    def update_quality(self):
+        pass
+
+    def update_sell_in(self):
+        self.item.sell_in = self.item.sell_in - 1
+
+    def decrease_quality_by(self, amount):
+        if self.item.quality - amount < 0:
+            self.item.quality = 0
+        else:
+            self.item.quality = self.item.quality - amount
+
+    def increase_quality_by(self, amount):
+        if self.item.quality + amount > 50:
+            self.item.quality = 50
+        else:
+            self.item.quality = self.item.quality + amount
+
+
+class NormalItem(AbstractItem):
+
+    degrade_amount = 1
+
+    def update_quality(self):
+        if self.item.quality > 0:
+            if self.item.sell_in >= 0:
+                self.decrease_quality_by(self.degrade_amount)
+            else:
+                self.decrease_quality_by(2 * self.degrade_amount)
+
+
 
 class GildedRose(object):
 
@@ -34,13 +82,3 @@ class GildedRose(object):
                 else:
                     if item.quality < 50:
                         item.quality = item.quality + 1
-
-
-class Item:
-    def __init__(self, name, sell_in, quality):
-        self.name = name
-        self.sell_in = sell_in
-        self.quality = quality
-
-    def __repr__(self):
-        return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
