@@ -71,6 +71,51 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEquals(sulfuras_item.item.sell_in, -1, "For Sulfuras Item, sell_in must not change")
         self.assertEquals(sulfuras_item.item.quality, 80, "For Sulfuras Item, quality must be equal to 80")
 
+    #  Conjured Item
+    def test_conjured_udp_quality_with_q_gt_0(self):
+        conjured_item = ConjuredItem(Item(name="Conjured Mana Cake", sell_in=1, quality=20))
+        conjured_item.update_quality()
+        self.assertEquals(conjured_item.item.quality, 18,
+                          "For Conjured Item, with positive sell_in, quality must decreases by two")
+
+    def test_conjured_upd_quality_with_q_eq_0(self):
+        conjured_item = ConjuredItem(Item(name="Conjured Mana Cake", sell_in=1, quality=0))
+        conjured_item.update_quality()
+        self.assertEquals(conjured_item.item.quality, 0,
+                          "For Conjured Item, with positive sell_in, with zero quality, quality must not change")
+
+    def test_conjured_udp_quality_with_s_eq_0(self):
+        conjured_item = ConjuredItem(Item(name="Conjured Mana Cake", sell_in=0, quality=2))
+        conjured_item.update_quality()
+        self.assertEquals(conjured_item.item.quality, 0,
+                          "For Conjured Item, with zero sell_in, quality must decreases by two")
+
+    def test_conjured_upd_quality_with_s_lt_0(self):
+        conjured_item = ConjuredItem(Item(name="Conjured Mana Cake", sell_in=-1, quality=6))
+        conjured_item.update_quality()
+        self.assertEquals(conjured_item.item.quality, 2,
+                          "For Conjured Item, with negative sell_in, quality must decreases by four")
+
+    def test_conjured_upd_quality_with_s_lt_0_q_boarder(self):
+        conjured_item = ConjuredItem(Item(name="Conjured Mana Cake", sell_in=-1, quality=1))
+        conjured_item.update_quality()
+        self.assertEquals(conjured_item.item.quality, 0,
+                          "For Conjured Item, with negative sell_in, with quality less that 2, "
+                          "quality must decreases to zero")
+
+    def test_conjured_upd_quality_with_s_lt_0_q_0(self):
+        conjured_item = ConjuredItem(Item(name="Conjured Mana Cake", sell_in=-1, quality=0))
+        conjured_item.update_quality()
+        self.assertEquals(conjured_item.item.quality, 0,
+                          "For Conjured Item, with negative sell_in, with quality equal to zero, "
+                          "quality must not change")
+
+    def test_conjured_upd_sell_in(self):
+        conjured_item = ConjuredItem(Item(name="Conjured Mana Cake", sell_in=10, quality=20))
+        conjured_item.update_sell_in()
+        self.assertEquals(conjured_item.item.sell_in, 9, "For Conjured Item, "
+                                                         "update sell_in must decrease sell_in by one")
+
 
 if __name__ == '__main__':
     unittest.main()

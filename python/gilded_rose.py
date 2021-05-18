@@ -47,6 +47,12 @@ class NormalItem(AbstractItem):
                 self.decrease_quality_by(2 * self.degrade_amount)
 
 
+class ConjuredItem(NormalItem):
+    def __init__(self, item: Item):
+        super().__init__(item)
+        self.degrade_amount = 2
+
+
 class SulfurasItem(AbstractItem):
     def update_quality(self):
         pass
