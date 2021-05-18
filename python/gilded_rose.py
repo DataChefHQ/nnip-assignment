@@ -47,6 +47,13 @@ class NormalItem(AbstractItem):
                 self.decrease_quality_by(2 * self.degrade_amount)
 
 
+class SulfurasItem(AbstractItem):
+    def update_quality(self):
+        pass
+
+    def update_sell_in(self):
+        pass
+
 
 class GildedRose(object):
 

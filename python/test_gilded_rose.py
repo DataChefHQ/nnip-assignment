@@ -49,6 +49,28 @@ class GildedRoseTest(unittest.TestCase):
         normal_item.update_sell_in()
         self.assertEquals(normal_item.item.sell_in, 9, "For Normal Item, update sell_in must decrease sell_in by one")
 
-        
+    # Sulfuras Item
+    def test_sulfuras_udp_quality_with_s_gt_0(self):
+        sulfuras_item = SulfurasItem(Item(name="Sulfuras, Hand of Ragnaros", sell_in=1, quality=80))
+        sulfuras_item.update_sell_in()
+        sulfuras_item.update_quality()
+        self.assertEquals(sulfuras_item.item.sell_in, 1, "For Sulfuras Item, sell_in must not change")
+        self.assertEquals(sulfuras_item.item.quality, 80, "For Sulfuras Item, quality must be equal to 80")
+
+    def test_sulfuras_udp_quality_with_s_eq_0(self):
+        sulfuras_item = SulfurasItem(Item(name="Sulfuras, Hand of Ragnaros", sell_in=0, quality=80))
+        sulfuras_item.update_sell_in()
+        sulfuras_item.update_quality()
+        self.assertEquals(sulfuras_item.item.sell_in, 0, "For Sulfuras Item, sell_in must not change")
+        self.assertEquals(sulfuras_item.item.quality, 80, "For Sulfuras Item, quality must be equal to 80")
+
+    def test_sulfuras_udp_quality_with_s_lt_0(self):
+        sulfuras_item = SulfurasItem(Item(name="Sulfuras, Hand of Ragnaros", sell_in=-1, quality=80))
+        sulfuras_item.update_sell_in()
+        sulfuras_item.update_quality()
+        self.assertEquals(sulfuras_item.item.sell_in, -1, "For Sulfuras Item, sell_in must not change")
+        self.assertEquals(sulfuras_item.item.quality, 80, "For Sulfuras Item, quality must be equal to 80")
+
+
 if __name__ == '__main__':
     unittest.main()
