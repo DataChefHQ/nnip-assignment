@@ -82,10 +82,10 @@ class BackstagePassesItem(AbstractItem):
                 self.increase_quality_by(1)
             elif self.item.sell_in >= 5:
                 self.increase_quality_by(2)
-            elif self.item.sell_in > 0:
+            elif self.item.sell_in >= 0:
                 self.increase_quality_by(3)
-            else:
-                self.item.quality = AbstractItem.min_quality
+        else:
+            self.item.quality = AbstractItem.min_quality
 
 
 class GildedRose(object):

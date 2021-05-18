@@ -175,8 +175,8 @@ class GildedRoseTest(unittest.TestCase):
         back_stage_item = BackstagePassesItem(Item(name="Backstage passes to a TAFKAL80ETC concert",
                                                    sell_in=0, quality=20))
         back_stage_item.update_quality()
-        self.assertEquals(back_stage_item.item.quality, 0,
-                          "For Back stage Passes Item, with sell_in eq 0, quality must be set to zero")
+        self.assertEquals(back_stage_item.item.quality, 23,
+                          "For Back stage Passes Item, with sell_in eq 0, quality must increases by three")
 
     def test_back_stage_udp_quality_with_s_lt_5_gt_0_q_boarder(self):
         back_stage_item = BackstagePassesItem(Item(name="Backstage passes to a TAFKAL80ETC concert",
