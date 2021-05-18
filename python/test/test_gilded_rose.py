@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
-
-from gilded_rose import *
+from python.app.gilded_rose import *
 
 
 class GildedRoseTest(unittest.TestCase):
