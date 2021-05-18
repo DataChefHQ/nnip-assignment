@@ -61,6 +61,16 @@ class SulfurasItem(AbstractItem):
         pass
 
 
+class AgedBrieItem(AbstractItem):
+
+    def update_quality(self):
+        if self.item.quality < 50:
+            if self.item.sell_in >= 0:
+                self.increase_quality_by(1)
+            else:
+                self.increase_quality_by(2)
+
+
 class GildedRose(object):
 
     def __init__(self, items):

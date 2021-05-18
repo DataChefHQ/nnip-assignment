@@ -116,6 +116,25 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEquals(conjured_item.item.sell_in, 9, "For Conjured Item, "
                                                          "update sell_in must decrease sell_in by one")
 
+    #  AgedBrie Item
+    def test_aged_brie_udp_quality_with_qs_gt_0(self):
+        aged_brie_item = AgedBrieItem(Item(name="Aged Brie", sell_in=2, quality=0))
+        aged_brie_item.update_quality()
+        self.assertEquals(aged_brie_item.item.quality, 1,
+                          "For AgedBrie Item, with positive sell_in, quality must increase by one")
+
+    def test_aged_brie_udp_quality_with_s_eq_0(self):
+        aged_brie_item = AgedBrieItem(Item(name="Aged Brie", sell_in=0, quality=0))
+        aged_brie_item.update_quality()
+        self.assertEquals(aged_brie_item.item.quality, 1,
+                          "For AgedBrie Item, with zero sell_in, quality must increase by one")
+
+    def test_aged_brie_udp_quality_with_s_lt_0(self):
+        aged_brie_item = AgedBrieItem(Item(name="Aged Brie", sell_in=-1, quality=0))
+        aged_brie_item.update_quality()
+        self.assertEquals(aged_brie_item.item.quality, 2,
+                          "For AgedBrie Item, with zero sell_in, quality must increase by two")
+
 
 if __name__ == '__main__':
     unittest.main()
